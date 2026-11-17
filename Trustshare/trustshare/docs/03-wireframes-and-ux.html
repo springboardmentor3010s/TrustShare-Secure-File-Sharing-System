@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TrustShare — Interactive UI Wireframes & Workflow Blueprint (Milestone 1 Task iii)</title>
+<style>
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #cbd5e1;
+    --line-soft: #e2e8f0;
+    --accent: #4f46e5;
+    --accent-soft: #eef2ff;
+    --ok: #059669;
+    --ok-soft: #ecfdf5;
+    --warn: #d97706;
+    --warn-soft: #fffbeb;
+    --danger: #e11d48;
+    --danger-soft: #fff1f2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  header {
+    background: #0f172a;
+    color: #fff;
+    padding: 20px 28px;
+    border-bottom: 1px solid #1e293b;
+  }
+  .header-top {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-badge {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--accent); display: grid; place-items: center;
+    font-weight: 800; font-size: 15px;
+  }
+  .brand h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+  .brand p { font-size: 12px; color: #94a3b8; }
+  .legend-pills { display: flex; gap: 8px; flex-wrap: wrap; font-size: 11px; }
+  .pill {
+    padding: 4px 10px; border-radius: 999px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .pill-m1 { background: rgba(16,185,129,0.18); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.35); }
+  .pill-m2 { background: rgba(99,102,241,0.22); color: #c7d2fe; border: 1px solid rgba(99,102,241,0.4); }
+  .pill-m3 { background: rgba(245,158,11,0.2); color: #fde68a; border: 1px solid rgba(245,158,11,0.4); }
+
+  nav.tabs {
+    background: #fff;
+    border-bottom: 1px solid var(--line-soft);
+    position: sticky; top: 0; z-index: 20;
+  }
+  .tabs-inner {
+    max-width: 1240px; margin: 0 auto; padding: 10px 28px;
+    display: flex; gap: 6px; overflow-x: auto;
+  }
+  .tab-btn {
+    border: 1px solid var(--line-soft);
+    background: #f8fafc;
+    color: #334155;
+    padding: 7px 13px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+  .ms-tag {
+    font-size: 10px; padding: 1px 5px; border-radius: 4px; margin-left: 4px;
+    font-weight: 700;
+  }
+  .ms-1 { background: #d1fae5; color: #065f46; }
+  .ms-2 { background: #e0e7ff; color: #3730a3; }
+  .ms-3 { background: #fef3c7; color: #92400e; }
+
+  main { max-width: 1240px; margin: 24px auto 60px; padding: 0 28px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .screen-meta {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start;
+    gap: 16px; margin-bottom: 16px;
+  }
+  .screen-meta h2 { font-size: 20px; font-weight: 700; }
+  .screen-meta p { font-size: 13px; color: var(--muted); max-width: 760px; margin-top: 3px; }
+  .route-chip {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px; background: var(--accent-soft); color: var(--accent);
+    padding: 5px 11px; border-radius: 8px; border: 1px solid #c7d2fe; font-weight: 600;
+  }
+
+  /* Browser wireframe frame */
+  .wf-browser {
+    background: var(--surface);
+    border: 2px solid #94a3b8;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  }
+  .wf-chrome {
+    background: #f1f5f9;
+    border-bottom: 1.5px solid var(--line);
+    padding: 9px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .dots { display: flex; gap: 5px; }
+  .dots span { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; border: 1px solid #94a3b8; }
+  .url-bar {
+    flex: 1; background: #fff; border: 1px solid var(--line); border-radius: 6px;
+    padding: 3px 10px; font-family: ui-monospace, monospace; font-size: 11px; color: #475569;
+  }
+
+  .wf-shell { display: grid; grid-template-columns: 210px 1fr; min-height: 470px; }
+  .wf-side {
+    background: #0f172a; color: #cbd5e1; padding: 16px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .wf-nav-item {
+    padding: 8px 10px; border-radius: 7px; font-size: 12px; margin-bottom: 4px;
+    color: #94a3b8; border: 1px dashed transparent;
+  }
+  .wf-nav-item.on { background: #4f46e5; color: #fff; font-weight: 600; }
+  .wf-quota {
+    border: 1px dashed #334155; border-radius: 8px; padding: 10px; font-size: 11px;
+    background: #1e293b;
+  }
+  .wf-bar { height: 6px; background: #334155; border-radius: 99px; margin: 6px 0; overflow: hidden; }
+  .wf-bar > div { height: 100%; background: #6366f1; }
+
+  .wf-main { padding: 20px; background: #f8fafc; }
+  .wf-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .wf-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+  .wf-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .wf-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 14px; }
+
+  .wf-card {
+    background: #fff; border: 1.5px dashed #94a3b8; border-radius: 10px; padding: 13px;
+  }
+  .wf-card.solid { border-style: solid; border-color: var(--line); }
+  .wf-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  .wf-kpi { font-size: 20px; font-weight: 800; margin-top: 4px; }
+  .wf-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .wf-btn {
+    display: inline-block; padding: 7px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    border: 1.5px solid var(--ink); background: #fff; color: var(--ink);
+  }
+  .wf-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .wf-btn.danger { background: var(--danger-soft); border-color: #fda4af; color: var(--danger); }
+  .wf-input {
+    width: 100%; padding: 8px 10px; border: 1.5px solid #94a3b8; border-radius: 7px;
+    background: #fff; font-size: 12px; color: #334155; margin-top: 4px;
+  }
+  .wf-badge {
+    display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 10px; font-weight: 700;
+  }
+  .b-ok { background: var(--ok-soft); color: var(--ok); border: 1px solid #a7f3d0; }
+  .b-acc { background: var(--accent-soft); color: var(--accent); border: 1px solid #c7d2fe; }
+  .b-warn { background: var(--warn-soft); color: var(--warn); border: 1px solid #fde68a; }
+  .b-err { background: var(--danger-soft); color: var(--danger); border: 1px solid #fecdd3; }
+
+  table.wf-table {
+    width: 100%; border-collapse: collapse; margin-top: 14px; background: #fff;
+    border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden; font-size: 12px;
+  }
+  .wf-table th {
+    background: #f1f5f9; text-align: left; padding: 9px 12px; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);
+    border-bottom: 1px solid var(--line);
+  }
+  .wf-table td { padding: 10px 12px; border-bottom: 1px solid var(--line-soft); }
+
+  .annotations {
+    margin-top: 18px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .note {
+    background: #fff; border-left: 3px solid var(--accent); border-radius: 8px;
+    padding: 12px 14px; border-top: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  }
+  .note h4 { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .note p { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .flow-lane {
+    background: #fff; border: 1.5px solid var(--line); border-radius: 12px;
+    padding: 18px; margin-bottom: 16px;
+  }
+  .flow-lane h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .steps {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+  }
+  .step {
+    border: 1.5px solid var(--line); border-radius: 10px; padding: 11px; background: #f8fafc;
+    position: relative;
+  }
+  .step-num {
+    display: inline-block; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-size: 11px; font-weight: 700;
+    text-align: center; line-height: 20px; margin-bottom: 6px;
+  }
+  .step h5 { font-size: 12px; font-weight: 700; }
+  .step p { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .step .layer {
+    margin-top: 7px; display: inline-block; font-family: ui-monospace, monospace;
+    font-size: 10px; background: #e2e8f0; padding: 1px 6px; border-radius: 4px; color: #334155;
+  }
+
+  @media (max-width: 900px) {
+    .wf-shell { grid-template-columns: 1fr; }
+    .wf-grid-4, .wf-grid-3, .wf-grid-2, .annotations, .steps { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-badge">TS</div>
+      <div>
+        <h1>TrustShare — UI Wireframes &amp; Workflow Planning Blueprint</h1>
+        <p>Milestone 1 · Task (iii) Deliverable · Covers Complete Platform UX (Milestones 1–3)</p>
+      </div>
+    </div>
+    <div class="legend-pills">
+      <span class="pill pill-m1">M1: Implemented in Workspace</span>
+      <span class="pill pill-m2">M2: Sharing &amp; Key Rotation Blueprint</span>
+      <span class="pill pill-m3">M3: Monitoring &amp; Analytics Blueprint</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button class="tab-btn active" onclick="showTab('flows', this)">0. Workflow Map</button>
+    <button class="tab-btn" onclick="showTab('auth', this)">1. Auth &amp; MFA <span class="ms-tag ms-1">M1</span></button>
+    <button class="tab-btn" onclick="showTab('vault', this)">2. File Vault Dashboard <span class="ms-tag ms-1">M1</span></button>
+    <button class="tab-btn" onclick="showTab('upload', this)">3. Secure Upload &amp; Versions <span class="ms-tag ms-1">M1</span></button>
+    <button class="tab-btn" onclick="showTab('rbac', this)">4. Security, Audit &amp; RBAC <span class="ms-tag ms-1">M1</span></button>
+    <button class="tab-btn" onclick="showTab('share', this)">5. Secure Share &amp; Expiry <span class="ms-tag ms-2">M2</span></button>
+    <button class="tab-btn" onclick="showTab('analytics', this)">6. Monitoring &amp; Analytics <span class="ms-tag ms-3">M3</span></button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- TAB 0: WORKFLOW PLANNING -->
+  <section id="tab-flows" class="panel active">
+    <div class="screen-meta">
+      <div>
+        <h2>End-to-End User &amp; Security Workflow Planning</h2>
+        <p>Maps every user interaction across frontend screens, FastAPI validation controls, cryptographic operations, and polyglot persistence (PostgreSQL, MongoDB, Redis, Object Storage).</p>
+      </div>
+      <span class="route-chip">Milestone 1–3 Master Flow</span>
+    </div>
+
+    <div class="flow-lane">
+      <h3>Flow 1 — Authentication, TOTP MFA Step-Up &amp; Session Control <span class="wf-badge b-ok">M1 Live</span></h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <h5>Credentials / SSO</h5>
+          <p>User submits email + password on <code>/login</code> or clicks Google/GitHub OAuth2.</p>
+          <span class="layer">Next.js UI</span>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <h5>Rate Limit &amp; bcrypt</h5>
+          <p>Checks Redis counter (5 fails / 5 min -&gt; HTTP 429) and verifies cost-12 bcrypt hash.</p>
+          <span class="layer">Redis + Postgres</span>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <h5>TOTP MFA Challenge</h5>
+          <p>If MFA active, issues 5-min challenge; decrypts TOTP secret with KEK &amp; verifies 6-digit RFC 6238 code.</p>
+          <span class="layer">FastAPI Security</span>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <h5>Session &amp; JWT Pair</h5>
+          <p>Issues 30m Access JWT (with <code>jti</code>) + 7d Refresh JWT (replay-protected rotation).</p>
+          <span class="layer">Postgres + Redis</span>
+        </div>
+        <div class="step">
+          <span class="step-num">5</span>
+          <h5>RBAC Routing &amp; Audit</h5>
+          <p>Loads role scopes (<code>admin|manager|member|guest</code>) and writes immutable login log.</p>
+          <span class="layer">MongoDB Audit</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-lane">
+      <h3>Flow 2 — Secure Validated Upload &amp; Streaming AES-256-GCM Envelope Encryption <span class="wf-badge b-ok">M1 Live</span></h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <h5>Drag-and-Drop Select</h5>
+          <p>User drops files, picks folder/category/tags; Axios streams multipart data with live progress bar.</p>
+          <span class="layer">UploadModal.tsx</span>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <h5>Sanitize &amp; Magic-Byte</h5>
+          <p>Strips path traversal; rejects denylisted extensions, PE/MZ, ELF, PHP, and spoofed PDF/PNG headers.</p>
+          <span class="layer">storage.py</span>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <h5>Mint Per-File DEK</h5>
+          <p>Generates unique 256-bit DEK; wraps DEK under root KEK via AES-256-GCM; computes streaming SHA-256.</p>
+          <span class="layer">cryptography</span>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <h5>64 KiB AEAD Stream</h5>
+          <p>Encrypts each chunk with derived nonce + index/final AAD; writes only ciphertext to isolated storage path.</p>
+          <span class="layer">Vault / S3 / Blob</span>
+        </div>
+        <div class="step">
+          <span class="step-num">5</span>
+          <h5>Metadata &amp; Audit</h5>
+          <p>Commits <code>encryption_keys</code>, <code>files</code>, <code>file_versions</code>, quota delta, and audit event.</p>
+          <span class="layer">Postgres + Mongo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-lane">
+      <h3>Flow 3 — Controlled Expiring Share Link &amp; In-Memory Decryption <span class="wf-badge b-acc">M2 Planned (Schema Ready)</span></h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <h5>Configure Share Policy</h5>
+          <p>Owner sets permission (view/download), expiry timestamp, max download count &amp; optional link passphrase.</p>
+          <span class="layer">ShareModal</span>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <h5>Hashed Token Storage</h5>
+          <p>Mints 256-bit URL-safe token; persists only <code>SHA-256(token)</code> in <code>share_links</code>.</p>
+          <span class="layer">PostgreSQL</span>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <h5>Recipient Policy Gate</h5>
+          <p>Checks not revoked, not expired, downloads &lt; cap, and bcrypt password match before access.</p>
+          <span class="layer">FastAPI Guard</span>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <h5>In-Memory Decrypt</h5>
+          <p>Unwraps DEK via KEK, verifies each 64 KiB GCM tag, streams plaintext over TLS (zero disk writes).</p>
+          <span class="layer">StreamingResponse</span>
+        </div>
+        <div class="step">
+          <span class="step-num">5</span>
+          <h5>Track &amp; Alert Owner</h5>
+          <p>Atomically increments download counter, logs recipient IP/UA, and triggers owner notification (M3).</p>
+          <span class="layer">Mongo + Notify</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 1: AUTH & MFA -->
+  <section id="tab-auth" class="panel">
+    <div class="screen-meta">
+      <div>
+        <h2>Screen 1 — Split-Panel Authentication, MFA Step-Up &amp; Recovery</h2>
+        <p>Separates primary credential entry, RFC 6238 TOTP challenge, OAuth2 federation, and Redis-backed password recovery without exposing account existence to unauthenticated attackers.</p>
+      </div>
+      <span class="route-chip">/login · /register</span>
+    </div>
+
+    <div class="wf-browser">
+      <div class="wf-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-bar">https://trustshare.app/login</div>
+      </div>
+      <div style="display:grid; grid-template-columns: 5fr 7fr; min-height: 430px;">
+        <div style="background:#0f172a; color:#e2e8f0; padding:28px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <span class="wf-badge b-acc">TrustShare Security Posture</span>
+            <h3 style="font-size:20px; margin-top:14px; color:#fff;">Encrypted File Sharing &amp; Controlled Digital Collaboration</h3>
+            <div class="wf-card" style="background:#1e293b; border-color:#334155; color:#cbd5e1; margin-top:16px;">
+              <strong style="font-size:12px; color:#6ee7b7;">[Feature Callout 1] AES-256-GCM Envelope</strong>
+              <p style="font-size:11px; color:#94a3b8;">Per-file 256-bit DEK wrapped by server root KEK.</p>
+            </div>
+            <div class="wf-card" style="background:#1e293b; border-color:#334155; color:#cbd5e1; margin-top:10px;">
+              <strong style="font-size:12px; color:#a5b4fc;">[Feature Callout 2] JWT + MFA + 4-Tier RBAC</strong>
+              <p style="font-size:11px; color:#94a3b8;">Admin, Manager, Member &amp; Read-Only Guest isolation.</p>
+            </div>
+          </div>
+          <p style="font-size:11px; color:#64748b;">TLS 1.3 · bcrypt(12) · Redis Brute-Force Guard</p>
+        </div>
+        <div style="padding:28px; display:grid; grid-template-columns: 1.2fr 0.9fr; gap:16px; align-items:start; background:#f8fafc;">
+          <div class="wf-card solid">
+            <div class="wf-label">State A: Primary Sign-In</div>
+            <h4 style="margin-top:4px; font-size:15px;">Sign in to TrustShare</h4>
+            <div style="margin-top:12px;">
+              <label style="font-size:11px; font-weight:600;">Work Email</label>
+              <div class="wf-input">user@organization.com</div>
+            </div>
+            <div style="margin-top:10px;">
+              <div class="wf-row"><label style="font-size:11px; font-weight:600;">Password</label><span style="font-size:11px; color:var(--accent);">Forgot password?</span></div>
+              <div class="wf-input">••••••••••••</div>
+            </div>
+            <div class="wf-btn primary" style="width:100%; text-align:center; margin-top:12px;">Sign In Securely -&gt;</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px;">
+              <div class="wf-btn" style="text-align:center; font-size:11px;">[G] Google SSO</div>
+              <div class="wf-btn" style="text-align:center; font-size:11px;">[GH] GitHub OAuth2</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div class="wf-card">
+              <div class="wf-label">State B: Step-Up MFA</div>
+              <p style="font-size:11px; color:var(--muted); margin-top:4px;">Shown only when <code>mfa_required = true</code> (5-min Redis TTL).</p>
+              <div class="wf-input" style="text-align:center; font-family:monospace; letter-spacing:5px; font-weight:700; margin-top:8px;">4 8 2 9 1 0</div>
+              <div class="wf-btn primary" style="width:100%; text-align:center; margin-top:8px; font-size:11px;">Verify 6-Digit TOTP</div>
+            </div>
+            <div class="wf-card">
+              <div class="wf-label">State C: Registration Rules</div>
+              <p style="font-size:11px; color:var(--ok); margin-top:4px;">[x] 8+ chars &nbsp; [x] Upper/lower<br/>[x] Digit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [x] Symbol</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotations">
+      <div class="note">
+        <h4>Anti-Enumeration Design</h4>
+        <p>Login errors return identical messages for unknown email vs. wrong password; password recovery returns a uniform message regardless of account existence.</p>
+      </div>
+      <div class="note">
+        <h4>Rate-Limit UX Feedback</h4>
+        <p>After 5 failed attempts in 5 minutes from the same IP+email, Redis blocks attempt #6 with HTTP 429 and a clear cooldown banner.</p>
+      </div>
+      <div class="note">
+        <h4>Transparent Token Rotation</h4>
+        <p>Axios interceptor catches 401 on expired 30-min access tokens and silently rotates the 7-day refresh token without interrupting file workflows.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: FILE VAULT -->
+  <section id="tab-vault" class="panel">
+    <div class="screen-meta">
+      <div>
+        <h2>Screen 2 — Encrypted File Management Dashboard</h2>
+        <p>Primary workspace combining vault KPI telemetry, nested folder navigation with breadcrumbs, instant search &amp; category filtering, encryption/integrity badges, and role-aware actions.</p>
+      </div>
+      <span class="route-chip">/dashboard</span>
+    </div>
+
+    <div class="wf-browser">
+      <div class="wf-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-bar">https://trustshare.app/dashboard</div>
+      </div>
+      <div class="wf-shell">
+        <aside class="wf-side">
+          <div>
+            <div style="font-weight:800; color:#fff; font-size:14px; margin-bottom:14px;">[Shield] TrustShare</div>
+            <div class="wf-nav-item on">Encrypted Vault</div>
+            <div class="wf-nav-item">Audit Activity</div>
+            <div class="wf-nav-item">Security &amp; MFA</div>
+            <div class="wf-nav-item">Users &amp; RBAC (Admin)</div>
+            <div class="wf-nav-item">Datastore Status</div>
+          </div>
+          <div>
+            <div class="wf-quota">
+              <div class="wf-row"><span>Encrypted Quota</span><span>18%</span></div>
+              <div class="wf-bar"><div style="width:18%"></div></div>
+              <span style="color:#94a3b8;">92 MB of 500 MB</span>
+            </div>
+            <div style="margin-top:8px; font-size:11px; color:#94a3b8;">Aarav Sen · <span class="wf-badge b-acc">ADMIN</span></div>
+          </div>
+        </aside>
+        <div class="wf-main">
+          <div class="wf-row">
+            <div>
+              <h3 style="font-size:17px;">File Management Vault</h3>
+              <p class="wf-sub">Root Vault &gt; Security Policies</p>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <span class="wf-btn">+ New Folder</span>
+              <span class="wf-btn primary">^ Upload &amp; Encrypt</span>
+            </div>
+          </div>
+
+          <div class="wf-grid-4">
+            <div class="wf-card solid"><div class="wf-label">Encrypted Files</div><div class="wf-kpi">24 <span class="wf-badge b-ok">100%</span></div><div class="wf-sub">Across 4 folders</div></div>
+            <div class="wf-card solid"><div class="wf-label">Vault Storage</div><div class="wf-kpi">92.4 MB</div><div class="wf-sub">of 5.0 GB quota</div></div>
+            <div class="wf-card solid"><div class="wf-label">Tracked Versions</div><div class="wf-kpi">39</div><div class="wf-sub">SHA-256 verified</div></div>
+            <div class="wf-card solid"><div class="wf-label">Audited Downloads</div><div class="wf-kpi">118</div><div class="wf-sub">6 starred · 1 trash</div></div>
+          </div>
+
+          <div class="wf-card solid" style="margin-top:12px; padding:10px 12px;">
+            <div class="wf-row">
+              <div style="display:flex; gap:6px; font-size:11px; font-weight:600;">
+                <span class="wf-badge" style="background:#0f172a; color:#fff; padding:4px 9px;">Folders &amp; Root</span>
+                <span class="wf-badge" style="background:#f1f5f9; padding:4px 9px;">All Files</span>
+                <span class="wf-badge" style="background:#f1f5f9; padding:4px 9px;">Starred</span>
+                <span class="wf-badge" style="background:#f1f5f9; padding:4px 9px;">Trash (1)</span>
+              </div>
+              <div style="display:flex; gap:6px; font-size:11px;">
+                <span style="border:1px solid var(--line); padding:3px 9px; border-radius:6px;">[Search filename, ext, notes...]</span>
+                <span style="border:1px solid var(--line); padding:3px 9px; border-radius:6px;">Category v</span>
+                <span style="border:1px solid var(--line); padding:3px 9px; border-radius:6px;">Sort v</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-grid-4">
+            <div class="wf-card">[Folder] Security Policies (4)</div>
+            <div class="wf-card">[Folder] Financial Reports Q4 (7)</div>
+            <div class="wf-card">[Folder] Architecture &amp; Specs (5)</div>
+            <div class="wf-card">[Folder] Client Contracts (8)</div>
+          </div>
+
+          <table class="wf-table">
+            <thead><tr><th>File &amp; SHA-256</th><th>Category</th><th>Protection</th><th>Size / Ver</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>★ Zero-Trust-Access-Policy.md</strong><br/><span style="font-size:10px; color:var(--muted); font-family:monospace;">sha256:9f84c2a1b03e… #security #policy</span></td>
+                <td><span class="wf-badge b-acc">Document</span></td>
+                <td><span class="wf-badge b-ok">AES-256-GCM</span></td>
+                <td>14 KB · <code>v2</code></td>
+                <td>[Info] [Share] [Download] [Trash]</td>
+              </tr>
+              <tr>
+                <td><strong>ISO27001-Compliance-Brief.pdf</strong><br/><span style="font-size:10px; color:var(--muted); font-family:monospace;">sha256:41c7e9081df2… #compliance</span></td>
+                <td><span class="wf-badge b-acc">Document</span></td>
+                <td><span class="wf-badge b-ok">AES-256-GCM</span></td>
+                <td>1.8 MB · <code>v1</code></td>
+                <td>[Info] [Share] [Download] [Trash]</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotations">
+      <div class="note">
+        <h4>Role-Adaptive Controls</h4>
+        <p>When signed in as <code>guest</code>, Upload, New Folder, Edit, and Delete controls are replaced by a clear "Read-Only Role" badge—backed by server-side 403 enforcement.</p>
+      </div>
+      <div class="note">
+        <h4>Two-Stage Cryptographic Delete</h4>
+        <p>Trash performs recoverable soft-delete; clicking "Shred" in Trash erases every version ciphertext blob AND deletes the wrapped DEK rows in PostgreSQL.</p>
+      </div>
+      <div class="note">
+        <h4>Verifiable Integrity at a Glance</h4>
+        <p>Every row displays its truncated plaintext SHA-256 digest and version badge so collaborators can confirm exact file authenticity before downloading.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: UPLOAD & VERSION DRAWER -->
+  <section id="tab-upload" class="panel">
+    <div class="screen-meta">
+      <div>
+        <h2>Screen 3 — Secure Upload Modal &amp; File Metadata / Version Drawer</h2>
+        <p>Surfaces security checks clearly during upload (including actionable feedback when malicious files are blocked) and provides slide-over inspection of envelope key IDs and revision history.</p>
+      </div>
+      <span class="route-chip">Modal + Slide-Over Drawer</span>
+    </div>
+
+    <div class="wf-grid-2">
+      <div class="wf-card solid" style="padding:20px;">
+        <div class="wf-row">
+          <div>
+            <div class="wf-label">Component A · UploadModal</div>
+            <h3 style="font-size:15px; margin-top:2px;">Secure Encrypted Upload</h3>
+          </div>
+          <span class="wf-badge b-ok">Max 50 MB / stream</span>
+        </div>
+        <div class="wf-card" style="text-align:center; padding:26px; margin-top:12px; background:#f8fafc;">
+          <strong>[Cloud Upload Icon] Drop files here or browse</strong>
+          <p class="wf-sub">Blocks .exe, .bat, .dll, .php, ELF &amp; disguised PDF/PNG magic bytes</p>
+        </div>
+        <div class="wf-grid-2">
+          <div><label class="wf-label">Folder</label><div class="wf-input">Security Policies v</div></div>
+          <div><label class="wf-label">Category</label><div class="wf-input">Auto-detect v</div></div>
+        </div>
+        <div class="wf-card" style="margin-top:12px; background:#f8fafc;">
+          <div class="wf-row">
+            <span style="font-size:12px; font-weight:600;">Q4-Audit-Report.pdf (2.4 MB)</span>
+            <span class="wf-badge b-ok">AES-256 Encrypted</span>
+          </div>
+          <div class="wf-row" style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--line);">
+            <span style="font-size:12px; font-weight:600;">spoofed_invoice.pdf (MZ header)</span>
+            <span class="wf-badge b-err">Blocked (415)</span>
+          </div>
+        </div>
+        <div class="wf-row" style="margin-top:14px;">
+          <span class="wf-sub">Unique per-file 256-bit DEK</span>
+          <span class="wf-btn primary">Encrypt &amp; Upload</span>
+        </div>
+      </div>
+
+      <div class="wf-card solid" style="padding:20px;">
+        <div class="wf-row">
+          <div>
+            <div class="wf-label">Component B · FileDetailDrawer</div>
+            <h3 style="font-size:15px; margin-top:2px;">Zero-Trust-Access-Policy.md</h3>
+          </div>
+          <span class="wf-badge b-acc">Current: v2</span>
+        </div>
+        <div class="wf-card" style="margin-top:12px; background:var(--ok-soft); border-color:#6ee7b7;">
+          <strong style="font-size:12px; color:#065f46;">Server-Side AES-256-GCM Envelope Encrypted</strong>
+          <p style="font-size:11px; font-family:monospace; margin-top:6px; color:#064e3b;">DEK ID: 4e19aa02-7c91-4d88-90b1-a21f…</p>
+          <p style="font-size:11px; font-family:monospace; margin-top:3px; color:#064e3b;">SHA-256: 9f84c2a1b03e7712… [Copy]</p>
+        </div>
+        <div style="margin-top:12px;">
+          <div class="wf-label">Editable Metadata (Name, Folder, Category, Tags, Note)</div>
+          <div class="wf-input">#security, #aes-256, #approved &nbsp; [Save Metadata]</div>
+        </div>
+        <div style="margin-top:14px;">
+          <div class="wf-row">
+            <span class="wf-label">Version Timeline (Each Revision Has Its Own DEK)</span>
+            <span class="wf-btn" style="font-size:11px; padding:4px 8px;">+ Upload v3</span>
+          </div>
+          <div class="wf-card" style="margin-top:8px; padding:9px;">
+            <div class="wf-row"><span><strong>v2</strong> · 14.2 KB · "Added AEAD spec"</span><span class="wf-badge b-acc">Download v2</span></div>
+          </div>
+          <div class="wf-card" style="margin-top:6px; padding:9px;">
+            <div class="wf-row"><span><strong>v1</strong> · 9.8 KB · "Initial draft"</span><span class="wf-badge b-acc">Download v1</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: SECURITY, AUDIT & RBAC -->
+  <section id="tab-rbac" class="panel">
+    <div class="screen-meta">
+      <div>
+        <h2>Screen 4 — Security Center (MFA &amp; Sessions), Audit Log &amp; Admin RBAC</h2>
+        <p>Gives every user self-service TOTP enrollment and session revocation, while giving Administrators governance over user roles, quotas, account suspension, and multi-datastore health.</p>
+      </div>
+      <span class="route-chip">/dashboard/security · /activity · /admin · /system</span>
+    </div>
+
+    <div class="wf-grid-3">
+      <div class="wf-card solid">
+        <div class="wf-label">Security &amp; MFA</div>
+        <h4 style="margin-top:4px;">TOTP &amp; Active Sessions</h4>
+        <div class="wf-card" style="margin-top:10px; text-align:center;">
+          <div style="width:78px; height:78px; margin:0 auto; border:2px solid var(--ink); display:grid; place-items:center; font-size:10px; font-weight:700;">[QR CODE]</div>
+          <p class="wf-sub" style="margin-top:6px;">Base32 seed + 6-digit verify</p>
+        </div>
+        <div class="wf-card" style="margin-top:8px;">
+          <div class="wf-row"><span style="font-size:11px;">Chrome · Linux <span class="wf-badge b-ok">Current</span></span></div>
+          <div class="wf-row" style="margin-top:6px;"><span style="font-size:11px;">Mobile Safari · 10.0.1.9</span><span class="wf-badge b-err">Revoke</span></div>
+        </div>
+      </div>
+
+      <div class="wf-card solid">
+        <div class="wf-label">Admin RBAC Console</div>
+        <h4 style="margin-top:4px;">Directory &amp; Role Control</h4>
+        <div class="wf-card" style="margin-top:10px; font-size:11px;">
+          <strong>admin@trustshare.dev</strong><br/>Role: <span class="wf-badge b-acc">ADMIN</span> · 5 GB · Active
+        </div>
+        <div class="wf-card" style="margin-top:8px; font-size:11px;">
+          <strong>manager@trustshare.dev</strong><br/>Role: [MANAGER v] · 2 GB · <span class="wf-badge b-err">Suspend</span>
+        </div>
+        <div class="wf-card" style="margin-top:8px; font-size:11px;">
+          <strong>guest@trustshare.dev</strong><br/>Role: [GUEST v] · 0 MB (Read-Only)
+        </div>
+      </div>
+
+      <div class="wf-card solid">
+        <div class="wf-label">Audit Log &amp; Datastores</div>
+        <h4 style="margin-top:4px;">Live Polyglot Telemetry</h4>
+        <div class="wf-card" style="margin-top:10px; font-size:11px;">
+          <div class="wf-row"><span>PostgreSQL 17</span><span class="wf-badge b-ok">Connected · 1.2ms</span></div>
+          <div class="wf-row" style="margin-top:5px;"><span>Redis 8</span><span class="wf-badge b-ok">Connected · 0.4ms</span></div>
+          <div class="wf-row" style="margin-top:5px;"><span>MongoDB Audit</span><span class="wf-badge b-ok">Indexed</span></div>
+          <div class="wf-row" style="margin-top:5px;"><span>AES-256 Vault</span><span class="wf-badge b-ok">KEK v1 Active</span></div>
+        </div>
+        <div class="wf-card" style="margin-top:8px; font-size:11px; font-family:monospace;">
+          file.uploaded -&gt; success<br/>
+          file.upload_blocked -&gt; blocked<br/>
+          rbac.access_denied -&gt; blocked
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 5: M2 SHARE LINKS -->
+  <section id="tab-share" class="panel">
+    <div class="screen-meta">
+      <div>
+        <h2>Screen 5 — Controlled Share Link Builder &amp; Recipient Access Gate (Milestone 2)</h2>
+        <p>Planned UX for Weeks 3–4 connecting directly to the <code>share_links</code> and <code>file_permissions</code> tables already provisioned in PostgreSQL.</p>
+      </div>
+      <span class="route-chip">Milestone 2 · /s/[token]</span>
+    </div>
+
+    <div class="wf-grid-2">
+      <div class="wf-card solid" style="padding:20px;">
+        <span class="wf-badge b-acc">Owner View · Share Policy Modal</span>
+        <h3 style="margin-top:8px; font-size:16px;">Share "ISO27001-Compliance-Brief.pdf"</h3>
+        <div class="wf-grid-2">
+          <div><label class="wf-label">Access Level</label><div class="wf-input">View &amp; Download v</div></div>
+          <div><label class="wf-label">Link Expiration</label><div class="wf-input">24 Hours v</div></div>
+        </div>
+        <div class="wf-grid-2">
+          <div><label class="wf-label">Max Downloads</label><div class="wf-input">5 downloads</div></div>
+          <div><label class="wf-label">Optional Link Password</label><div class="wf-input">••••••••</div></div>
+        </div>
+        <div class="wf-card" style="margin-top:12px; background:#f8fafc;">
+          <div class="wf-label">Generated One-Time Visible Link (SHA-256 Stored Server-Side)</div>
+          <p style="font-family:monospace; font-size:11px; margin-top:4px;">https://trustshare.app/s/k9Qx_82LmP4vN… [Copy]</p>
+        </div>
+        <div class="wf-row" style="margin-top:12px;">
+          <span class="wf-btn danger">Revoke Active Links (2)</span>
+          <span class="wf-btn primary">Create Protected Link</span>
+        </div>
+      </div>
+
+      <div class="wf-card solid" style="padding:20px;">
+        <span class="wf-badge b-warn">Recipient View · Public Token Gate</span>
+        <h3 style="margin-top:8px; font-size:16px;">Protected Document Shared via TrustShare</h3>
+        <div class="wf-card" style="margin-top:12px; background:#f8fafc;">
+          <strong>ISO27001-Compliance-Brief.pdf</strong> (1.8 MB)<br/>
+          <span class="wf-sub">Expires in 23h 41m · Remaining downloads: 4 of 5</span>
+        </div>
+        <div style="margin-top:12px;">
+          <label class="wf-label">Enter Share Passphrase</label>
+          <div class="wf-input">••••••••</div>
+        </div>
+        <div class="wf-btn primary" style="width:100%; text-align:center; margin-top:12px;">Verify &amp; Decrypt Download</div>
+        <p class="wf-sub" style="margin-top:10px;">Access timestamp, download count, and IP address are recorded in the owner's audit log.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 6: M3 ANALYTICS -->
+  <section id="tab-analytics" class="panel">
+    <div class="screen-meta">
+      <div>
+        <h2>Screen 6 — File Analytics, Security Alerts &amp; Anomaly Dashboard (Milestone 3)</h2>
+        <p>Planned UX for Weeks 5–6 unifying File Analytics, Security Dashboard (failed logins, blocked uploads, suspicious bursts), and Notification Center.</p>
+      </div>
+      <span class="route-chip">Milestone 3 · /dashboard/analytics</span>
+    </div>
+
+    <div class="wf-browser">
+      <div class="wf-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-bar">https://trustshare.app/dashboard/analytics</div>
+      </div>
+      <div class="wf-main">
+        <div class="wf-grid-4">
+          <div class="wf-card solid"><div class="wf-label">Total Ciphertext Stored</div><div class="wf-kpi">18.4 GB</div><div class="wf-sub">+12% this week</div></div>
+          <div class="wf-card solid"><div class="wf-label">Active Share Links</div><div class="wf-kpi">31</div><div class="wf-sub">4 expiring in &lt;24h</div></div>
+          <div class="wf-card solid"><div class="wf-label">Blocked Threats (7d)</div><div class="wf-kpi" style="color:var(--danger);">9</div><div class="wf-sub">6 brute-force · 3 spoofed files</div></div>
+          <div class="wf-card solid"><div class="wf-label">Key Rotation Compliance</div><div class="wf-kpi" style="color:var(--ok);">100%</div><div class="wf-sub">All DEKs on KEK v2</div></div>
+        </div>
+        <div class="wf-grid-2">
+          <div class="wf-card">
+            <div class="wf-label">Chart 1 · 14-Day Upload vs. Decrypted Download Volume</div>
+            <svg viewBox="0 0 400 120" style="width:100%; height:120px; margin-top:10px;">
+              <polyline fill="none" stroke="#4f46e5" stroke-width="2.5" points="10,95 65,78 120,82 175,50 230,60 285,32 340,40 390,18"/>
+              <polyline fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="4 3" points="10,105 65,92 120,74 175,68 230,45 285,52 340,28 390,34"/>
+            </svg>
+            <p class="wf-sub">Solid: Encrypted Uploads · Dashed: Authorized Share Downloads</p>
+          </div>
+          <div class="wf-card">
+            <div class="wf-label">Security Alert Feed &amp; Notification Triggers</div>
+            <div style="margin-top:8px; font-size:12px; display:flex; flex-direction:column; gap:7px;">
+              <div><span class="wf-badge b-err">CRITICAL</span> 7 failed logins from 203.0.113.42 -&gt; Rate-limited + email alert</div>
+              <div><span class="wf-badge b-warn">WARNING</span> Disguised PE executable rejected during upload</div>
+              <div><span class="wf-badge b-acc">REMINDER</span> Share link for <code>Contract-v3.pdf</code> expires in 2 hours</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
